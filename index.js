@@ -9,6 +9,11 @@ const router = express.Router()
 
 
 router.get('/', (req, res)=> {
+  res.sendFile(path.join(__dirname + '/home.html'));
+});
+
+
+router.get('/sign-up', (req, res)=> {
   res.sendFile(path.join(__dirname + '/form.html'));
 });
 
@@ -18,6 +23,7 @@ router.get('/', (req, res)=> {
 
 app.use(express.static(__dirname + '/Views'));
 app.use('/', router)
+
 
 const PORT = 8080
 app.listen(PORT, ()=> {
