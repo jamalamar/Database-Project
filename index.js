@@ -16,21 +16,18 @@ const connectionString =
 
 // instanciare. te the client and pass it the connection string
 const client = new Client({ connectionString })
-
-
-
-// router.post('/', ()=>{})
-
 client.connect().then(()=> {console.log("Connection to Postgres succesfull!")})
 
 
 //Create User
 router.post('/new', (req, res, next)=> {
 
-  let text = 'INSERT INTO users(user_id, username, email, city, country, password) VALUES ($1, $2, $3, $4, $5, $6)'
-  let body = req.body
-  let data = [req.body.user_id, req.body.username, req.body.email, req.body.city, req.body.country, req.body.password]
+const text = 'INSERT INTO users(user_id, username, email, city, country, password) VALUES ($1, $2, $3, $4, $5, $6)'
+const body = req.body
+let data = [req.body.user_id, req.body.username, req.body.email, req.body.city, req.body.country, req.body.password]
   
+
+// If insertion is succesfull log message:
   client.query(text, data)
       .then( ()=> {
         res.status(200)
@@ -38,38 +35,11 @@ router.post('/new', (req, res, next)=> {
           status: 'success',
           message: 'Inserted new User'
         });
+        console.log("new user inserted")
     })
-
-
+   
 // Terminal syntax to insert new user:
 // curl --data "user_id=17&username=yesyes&email=maildiezysietehotmail&city=CDMX&country=UnitedStates&password=123456789" \localhost:8080/new -v
-
-
-
-   // callback
-   //  client.query(text, values, (err, res) => {
-   //    if (err) {
-   //      console.log(err.stack)
-   //    } else {
-   //      console.log(res.rows[0])
-   //    }
-   //  })
-
-   // // promise
-   //  client.query(text, values)
-   //    .then(res => {
-   //      console.log(res.rows[0])
-   //    })
-   //    .catch(e => console.error(e.stack))
-
-   // // async/await
-   //  try {
-   //    const res = pool.query(text, values)
-   //    console.log(res.rows[0])
-   //  } catch(err) {
-   //    console.log(err.stack)
-   //  }
-   
 });
 
 
