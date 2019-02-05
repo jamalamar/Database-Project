@@ -7,85 +7,70 @@ const bodyParser = require('body-parser')
 const path = require('path')
 const router = express.Router()
 
-router.use(bodyParser.urlencoded({ extended: false }))
+router.use(bodyParser.urlencoded({ extended: true }))
 router.use(bodyParser.json())  
 
 //==> SET UP THE PG MODULE <==
 const connectionString = 
 'postgresql://jamal:@localhost:5432/marketplace'
 
-//instanciare. te the client and pass it the connection string
+// instanciare. te the client and pass it the connection string
 const client = new Client({ connectionString })
+
+
+
+// router.post('/', ()=>{})
+
 client.connect().then(()=> {console.log("Connection to Postgres succesfull!")})
 
 
+//Create User
+router.post('/new', (req, res, next)=> {
 
-const text = 'INSERT INTO users(user_id, first_name, last_name, email, city, country, password) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *'
-const values = [17, 'yes', 'no', 'diezysiete@hotmail.com', 'ATX', 'USA', '123456789'] 
-
-// callback
-client.query(text, values, (err, res) => {
-  if (err) {
-    console.log(err.stack)
-  } else {
-    console.log(res.rows[0])
-    // { name: 'brianc', email: 'brian.m.carlson@gmail.com' }
-  }
-})
-
-// promise
-client.query(text, values)
-  .then(res => {
-    console.log(res.rows[0])
-    // { name: 'brianc', email: 'brian.m.carlson@gmail.com' }
-  })
-  .catch(e => console.error(e.stack))
-
-// async/await
-try {
-  const res = pool.query(text, values)
-  console.log(res.rows[0])
-} catch(err) {
-  console.log(err.stack)
-}
-
-
-
-
-
-// //Create User
-// router.post('/new', (request, response, next) => {
-//   // res.send(req.body)
-// // Grab data from http request
-//   const data = {text: request.body, complete: false};
-//   	console.log(data) 
+  let text = 'INSERT INTO users(user_id, username, email, city, country, password) VALUES ($1, $2, $3, $4, $5, $6)'
+  let body = req.body
+  let data = [req.body.user_id, req.body.username, req.body.email, req.body.city, req.body.country, req.body.password]
   
-    
-// // SQL Query > Insert Data
-//     client.query('INSERT INTO users(user_id, first_name, last_name, email, city, country, password) VALUES ($1, $2, $3, $4, $5, $6, $7)',
-//      [data.text, data.complete])    
-//     .then(result => response.send(data.text)
-//     .catch(error => console.log(error)))
-// })  
-    // SQL Query > Select Data
-    // const query = client.query('SELECT * FROM users ORDER BY id ASC');
-    
-  //   // Stream results back one row at a time
-  //   query.on('row', (row) => {
-  //     console.log('query on row :::::::')
-  //     results.push(row);
-  //   });
-    
-  //   // After all data is returned, close connection and return results
-  //   query.on('end', () => {
-  //     done();
-  //     return res.json(results);
-  // });
-// });
+  client.query(text, data)
+      .then( ()=> {
+        res.status(200)
+        .json({
+          status: 'success',
+          message: 'Inserted new User'
+        });
+    })
 
-// Terminal code to Create User:
-// curl --data "user_id=17&first_name=nono&last_name=yesyes&email=maildiezysietehotmail&city=CDMX&country=UnitedStates&password=123456789" localhost:8080/new -v
 
+// Terminal syntax to insert new user:
+// curl --data "user_id=17&username=yesyes&email=maildiezysietehotmail&city=CDMX&country=UnitedStates&password=123456789" \localhost:8080/new -v
+
+
+
+   // callback
+   //  client.query(text, values, (err, res) => {
+   //    if (err) {
+   //      console.log(err.stack)
+   //    } else {
+   //      console.log(res.rows[0])
+   //    }
+   //  })
+
+   // // promise
+   //  client.query(text, values)
+   //    .then(res => {
+   //      console.log(res.rows[0])
+   //    })
+   //    .catch(e => console.error(e.stack))
+
+   // // async/await
+   //  try {
+   //    const res = pool.query(text, values)
+   //    console.log(res.rows[0])
+   //  } catch(err) {
+   //    console.log(err.stack)
+   //  }
+   
+});
 
 
 
