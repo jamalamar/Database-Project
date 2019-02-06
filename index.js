@@ -19,7 +19,7 @@ const client = new Client({ connectionString })
 client.connect().then(()=> {console.log("Connection to Postgres succesfull!")})
 
 
-//Get Users
+//Get All Users
 router.get('/users', (req, res)=> {
 
     // SQL Query > Select Data
@@ -35,6 +35,27 @@ router.get('/users/:id', (req, res)=> {
   const id = req.params.id
     // SQL Query > Select Data
     client.query('SELECT * FROM users WHERE username=$1', [id])
+     .then(result => res.send(result.rows))
+     .catch(error => console.log(error))
+});
+
+
+//Get All Cities
+router.get('/city', (req, res)=> {
+
+    // SQL Query > Select Data
+    client.query('SELECT city FROM users ORDER BY state')
+     .then(result => res.send(result.rows))
+     .catch(error => console.log(error))
+});
+
+
+//Get Users by City
+router.get('/city/:id', (req, res)=> {
+
+  const id = req.params.id
+    // SQL Query > Select Data
+    client.query('SELECT * FROM users WHERE city=$1 ORDER BY user_id', [id])
      .then(result => res.send(result.rows))
      .catch(error => console.log(error))
 });
