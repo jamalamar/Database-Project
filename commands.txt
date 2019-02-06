@@ -1,13 +1,64 @@
 
+										USERS COMMANDS & URLS
+										----------------------
+
 Terminal command to insert new user:
-	curl --data "user_id=17&username=yesyes&email=maildiezysietehotmail&city=CDMX&country=UnitedStates&password=123456789" \localhost:8080/new -v
+	curl --data "user_id=17&username=yesyes&email=maildiezysietehotmail&city=CDMX&country=UnitedStates&password=123456789" \localhost:8080/users/new -v
 
 Terminal command to Update user:
-	curl --data "user_id=1&username=yesyes&email=maildiezysietehotmail&city=CDMX&country=UnitedStates&password=123456789" \localhost:8080/update -v
+	curl --data "user_id=1&username=yesyes&email=maildiezysietehotmail&city=CDMX&country=UnitedStates&password=123456789" \localhost:8080/users/update -v
 
-Terminal command to Delete user with Curl: 
-	curl --data "username=Shazad&password=123456789" \localhost:8080/delete -v
+
+	(CURRENTLY COMMENTED OUT PIECE OF CODE)
+	Terminal command to Delete user with Curl: 
+		curl --data "username=Shazad&password=123456789" \localhost:8080/delete -v
 
 
 Terminal Command to Delete user with url:
-	curl -X DELETE localhost:8080/delete/Shazad
+	curl -X DELETE localhost:8080/users/delete/Shazad
+
+
+Browser URL to get:
+
+	-All users:
+		localhost:8080/users
+	
+	-Users by username:
+		localhost:8080/users/Jamal
+
+	-All cities that have Users:
+		localhost:8080/users/city
+
+	-Users by city:
+		localhost:8080/users/city/New York
+
+
+
+										ITEMS COMMANDS & URLS
+										----------------------
+
+Terminal command to insert new item:
+	curl --data "user_id=1&item_name=newItem&publish_date=2019-02-05&price=99999" \localhost:8080/items/new -v
+
+Terminal command to Update item:
+	curl --data "user_id=1&item_name=newItem&publish_date=2019-02-05&price=99999" \localhost:8080/items/update -v
+
+
+Terminal Command to Delete item with url:
+	curl -X DELETE localhost:8080/items/delete/Jamal's itemOne
+
+
+Browser URL to get:
+
+	-All items:
+		localhost:8080/items
+	
+	-Items by username:
+		localhost:8080/items/1
+
+	-All Items by Price:
+		localhost:8080/items/price/234
+
+
+
+
