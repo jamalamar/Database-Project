@@ -62,9 +62,9 @@ router.get('/city/:id', (req, res)=> {
 
 
 //Create User
-router.post('/new', (req, res, next)=> {
+router.put('/new', (req, res, next)=> {
 
-const text = 'INSERT INTO users(user_id, username, email, city, country, password) VALUES ($1, $2, $3, $4, $5, $6)'
+const text = 'INSERT INTO users(user_id, username, email, city, state, password) VALUES ($1, $2, $3, $4, $5, $6)'
 let data = [req.body.user_id, req.body.username, req.body.email, req.body.city, req.body.country, req.body.password]
   
 // If insertion is succesfull log message:
@@ -80,6 +80,23 @@ let data = [req.body.user_id, req.body.username, req.body.email, req.body.city, 
 });
 
 
+//Upate User
+router.post('/update', (req, res, next)=> {
+
+const text = 'UPDATE users SET username=($2), email=($3), city=($4), state=($5), password=($6) WHERE user_id=($1)'
+let data = [req.body.user_id, req.body.username, req.body.email, req.body.city, req.body.country, req.body.password]
+  
+// If insertion is succesfull log message:
+  client.query(text, data)
+      .then( ()=> {
+        res.status(200)
+        .json({
+          status: 'Success',
+          message: 'Updated User'
+        });
+        console.log("User: >" + req.body.username + "< succesfully Updated!")
+    })
+});
 
 
 
