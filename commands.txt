@@ -1,0 +1,3 @@
+
+Terminal command to insert new user:
+	curl --data "user_id=17&username=yesyes&email=maildiezysietehotmail&city=CDMX&country=UnitedStates&password=123456789" \localhost:8080/new -v

@@ -19,43 +19,53 @@ const client = new Client({ connectionString })
 client.connect().then(()=> {console.log("Connection to Postgres succesfull!")})
 
 
+//Get Users
+router.get('/users', (req, res)=> {
+
+    // SQL Query > Select Data
+    client.query('SELECT * FROM users ORDER BY user_id ASC;')
+     .then(result => res.send(result.rows))
+     .catch(error => console.log(error))
+});
+
+
+//Get Users by Username
+router.get('/users/:id', (req, res)=> {
+
+  const id = req.params.id
+    // SQL Query > Select Data
+    client.query('SELECT * FROM users WHERE username=$1', [id])
+     .then(result => res.send(result.rows))
+     .catch(error => console.log(error))
+});
+
+
 //Create User
 router.post('/new', (req, res, next)=> {
 
 const text = 'INSERT INTO users(user_id, username, email, city, country, password) VALUES ($1, $2, $3, $4, $5, $6)'
-const body = req.body
 let data = [req.body.user_id, req.body.username, req.body.email, req.body.city, req.body.country, req.body.password]
   
-
 // If insertion is succesfull log message:
   client.query(text, data)
       .then( ()=> {
         res.status(200)
         .json({
-          status: 'success',
+          status: 'Success',
           message: 'Inserted new User'
         });
-        console.log("new user inserted")
+        console.log("New user: >" + req.body.username + "< succesfully inserted!")
     })
-   
-// Terminal syntax to insert new user:
-// curl --data "user_id=17&username=yesyes&email=maildiezysietehotmail&city=CDMX&country=UnitedStates&password=123456789" \localhost:8080/new -v
 });
 
 
 
-//Get home page
-router.get('/home', (req, res)=> {
-  res.sendFile(path.join(__dirname + '/home.html'));
-});
 
 
 //Get create and account page
 router.get('/sign-up', (req, res)=> {
   res.sendFile(path.join(__dirname + '/form.html'));
 });
-
-
 
 
 //Using Views folder for Css
