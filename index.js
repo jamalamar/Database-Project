@@ -93,11 +93,45 @@ let data = [req.body.user_id, req.body.username, req.body.email, req.body.city, 
         .json({
           status: 'Success',
           message: 'Updated User'
-        });
+        })
+        .catch(error => console.log(error));
         console.log("User: >" + req.body.username + "< succesfully Updated!")
     })
 });
 
+
+// Delete User with Url:
+router.delete('/delete/:id', (req, res)=>{
+
+  const id = req.params.id
+
+  client.query('DELETE FROM users WHERE username=($1)', [id])
+    .then(result => res.send(result.rows))
+    .catch(error => console.log(error))
+
+})
+
+
+
+
+
+// //Delete User with curl
+// router.delete('/delete', (req, res, next)=>{
+
+//   const text = 'DELETE FROM users WHERE username=($1), password=($2)'
+//   let data = [req.body.username, req.body.password]
+
+//   client.query(text, data)
+//     .then(()=>{
+//       res.status(200)
+//       .json({
+//         status: 'Succes',
+//         message: 'Deleted User'
+//       })
+//       .catch(error => console.log(error));
+//       console.log("User: >" + req.body.username + "< succesfully Deleted!")
+//     })
+// });
 
 
 //Get create and account page

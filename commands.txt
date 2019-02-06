@@ -4,3 +4,10 @@ Terminal command to insert new user:
 
 Terminal command to Update user:
 	curl --data "user_id=1&username=yesyes&email=maildiezysietehotmail&city=CDMX&country=UnitedStates&password=123456789" \localhost:8080/update -v
+
+Terminal command to Delete user with Curl: 
+	curl --data "username=Shazad&password=123456789" \localhost:8080/delete -v
+
+
+Terminal Command to Delete user with url:
+	curl -X DELETE localhost:8080/delete/Shazad
