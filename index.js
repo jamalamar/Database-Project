@@ -114,26 +114,31 @@ client.connect().then(()=> {console.log("Connection to Postgres succesfull!")})
           .catch(error => console.log(error))
 
       })
+
       // //Delete User with curl
-      // router.delete('/delete', (req, res, next)=>{
+      router.delete('/delete', (req, res, next)=>{
 
-      //   const text = 'DELETE FROM users WHERE username=($1), password=($2)'
-      //   let data = [req.body.username, req.body.password]
+        const text = 'DELETE FROM users WHERE username=($1), password=($2)'
+        let data = [req.body.username, req.body.password]
 
-      //   client.query(text, data)
-      //     .then(()=>{
-      //       res.status(200)
-      //       .json({
-      //         status: 'Succes',
-      //         message: 'Deleted User'
-      //       })
-      //       .catch(error => console.log(error));
-      //       console.log("User: >" + req.body.username + "< succesfully Deleted!")
-      //     })
-      // });
+        client.query(text, data)
+          .then(()=>{
+            res.status(200)
+            .json({
+              status: 'Succes',
+              message: 'Deleted User'
+            })
+            .catch(error => console.log(error));
+            console.log("User: >" + req.body.username + "< succesfully Deleted!")
+          })
+      });
 
 //-------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------
+
+
+
+
 
                                       //ITEM ROUTES
 //-------------------------------------------------------------------------------------------
@@ -149,7 +154,7 @@ client.connect().then(()=> {console.log("Connection to Postgres succesfull!")})
 
 
       //Get items by Username
-      router.get('/items/:id', (req, res)=> {
+      router.get('/items/users/:id', (req, res)=> {
 
         const id = req.params.id
           // SQL Query > Select Data
@@ -227,9 +232,20 @@ client.connect().then(()=> {console.log("Connection to Postgres succesfull!")})
 
 
 
-                                              //CARD UPDATE
+                                            //CARD UPDATE
 //-------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------
+
+      //Get items by Username
+      router.get('/card/users/:id', (req, res)=> {
+
+        const id = req.params.id
+          // SQL Query > Select Data
+          client.query('SELECT * FROM payment_card WHERE user_id=$1', [id])
+           .then(result => res.send(result.rows))
+           .catch(error => console.log(error))
+      });
+
 
       //Upate Card
       router.put('/card/update', (req, res, next)=> {
