@@ -6,7 +6,7 @@ Terminal command to insert new user:
 	curl --data "user_id=17&username=yesyes&email=maildiezysietehotmail&city=CDMX&country=UnitedStates&password=123456789" \localhost:8080/users/new -v
 
 Terminal command to Update user:
-	curl --data "user_id=1&username=yesyes&email=maildiezysietehotmail&city=CDMX&country=UnitedStates&password=123456789" \localhost:8080/users/update -v
+	curl -X PUT --data "user_id=1&username=yesyes&email=maildiezysietehotmail&city=CDMX&country=UnitedStates&password=123456789" \localhost:8080/users/update -v
 
 
 	(CURRENTLY COMMENTED OUT PIECE OF CODE)
@@ -41,7 +41,7 @@ Terminal command to insert new item:
 	curl --data "user_id=1&item_name=newItem&publish_date=2019-02-05&price=99999" \localhost:8080/items/new -v
 
 Terminal command to Update item:
-	curl --data "user_id=1&item_name=newItem&publish_date=2019-02-05&price=99999" \localhost:8080/items/update -v
+	curl -X PUT --data "user_id=1&item_name=newItem&publish_date=2019-02-05&price=99999" \localhost:8080/items/update -v
 
 
 Terminal Command to Delete item with url:
@@ -58,6 +58,15 @@ Browser URL to get:
 
 	-All Items by Price:
 		localhost:8080/items/price/234
+
+
+
+												 CARD COMMANDS
+												---------------
+curl -X PUT --data "user_id=1&card_name=JamalAmar&card_number=123123123&exp_date=2019-05-02&sn=987" \localhost:8080/card/update
+
+
+
 
 
 

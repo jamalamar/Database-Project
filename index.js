@@ -66,7 +66,7 @@ client.connect().then(()=> {console.log("Connection to Postgres succesfull!")})
 
 
       //Create User
-      router.put('/users/new', (req, res, next)=> {
+      router.post('/users/new', (req, res, next)=> {
 
       const text = 'INSERT INTO users(user_id, username, email, city, state, password) VALUES ($1, $2, $3, $4, $5, $6)'
       let data = [req.body.user_id, req.body.username, req.body.email, req.body.city, req.body.country, req.body.password]
@@ -85,7 +85,7 @@ client.connect().then(()=> {console.log("Connection to Postgres succesfull!")})
 
 
       //Upate User
-      router.post('/users/update', (req, res, next)=> {
+      router.put('/users/update', (req, res, next)=> {
 
       const text = 'UPDATE users SET username=($2), email=($3), city=($4), state=($5), password=($6) WHERE user_id=($1)'
       let data = [req.body.user_id, req.body.username, req.body.email, req.body.city, req.body.country, req.body.password]
@@ -171,7 +171,7 @@ client.connect().then(()=> {console.log("Connection to Postgres succesfull!")})
 
 
       //Create Item
-      router.put('/items/new', (req, res, next)=> {
+      router.post('/items/new', (req, res, next)=> {
 
       const text = 'INSERT INTO items(user_id, item_name, publish_date, price) VALUES ($1, $2, $3, $4)'
       let data = [req.body.user_id, req.body.item_name, req.body.publish_date, req.body.price]
@@ -190,7 +190,7 @@ client.connect().then(()=> {console.log("Connection to Postgres succesfull!")})
 
 
       //Upate Item
-      router.post('/items/update', (req, res, next)=> {
+      router.put('/items/update', (req, res, next)=> {
 
       const text = 'UPDATE items SET item_name=($2), publish_date=($3), price=($4) WHERE user_id=($1)'
       let data = [req.body.user_id, req.body.username, req.body.email, req.body.city, req.body.country, req.body.password]
@@ -227,9 +227,35 @@ client.connect().then(()=> {console.log("Connection to Postgres succesfull!")})
 
 
 
+                                              //CARD UPDATE
+//-------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------
+
+      //Upate Card
+      router.put('/card/update', (req, res, next)=> {
+
+      const text = 'UPDATE payment_card SET card_name=($2), card_number=($3), exp_date=($4), sn=($5) WHERE user_id=($1)'
+      let data = [req.body.user_id, req.body.card_name, req.body.card_number, req.body.exp_date, req.body.sn]
+        
+      // If insertion is succesfull log message:
+        client.query(text, data)
+            .then( ()=> {
+              res.status(200)
+              .json({
+                status: 'Success',
+                message: 'Updated Payment Method'
+              })
+              .catch(error => console.log(error));
+              console.log("Card: >" + req.body.card_number + "< succesfully Updated!")
+          })
+      });
+//-------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------
+
+
 //Get create and account page
 router.get('/sign-up', (req, res)=> {
-  res.sendFile(path.join(__dirname + '/form.html'));
+  res.sendFile(path.join(__dirname + '/Views/form.html'));
 });
 
 
